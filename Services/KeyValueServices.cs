@@ -18,6 +18,7 @@ namespace Services
         public KeyValueServices()
         {
             _unitOfWork = new UnitOfWork();
+            Mapper.CreateMap<KeyValue, KeyValueEntity>();
         }
 
         public KeyValueEntity GetKeyValueDataById(long kvId)
@@ -25,8 +26,8 @@ namespace Services
             var kvData = _unitOfWork.KeyValueRepository.GetById(kvId);
             if (kvData != null)
             {
-                Mapper.CreateMap<KeyValue, KeyValueEntity>();
-                var kvDataEntity = Mapper.Map<KeyValue, KeyValueEntity>(kvData);
+                var kvDataEntity = Mapper.Map<KeyValueEntity>(kvData);
+                Mapper.AssertConfigurationIsValid();
                 return kvDataEntity;
             }
             return null;
@@ -37,8 +38,8 @@ namespace Services
             var allKvData = _unitOfWork.KeyValueRepository.GetAll().ToList();
             if (allKvData.Any())
             {
-                Mapper.CreateMap<List<KeyValue>, List<KeyValueEntity>>();
-                var allKvDataEntities = Mapper.Map<List<KeyValue>, List<KeyValueEntity>>(allKvData);
+                var allKvDataEntities = Mapper.Map<List<KeyValue>,List<KeyValueEntity>>(allKvData);
+                Mapper.AssertConfigurationIsValid();
                 return allKvDataEntities;
             }
             return null;
